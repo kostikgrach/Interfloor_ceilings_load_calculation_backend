@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>{{title}}</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="canvas">
+    <form action="" class="add-form" method="POST" enctype="multipart/form-data">
+      <div>
+        <label for="title">Название</label><br>
+        <input value="{{ data.load.title }}" class="input" type="text" id="title" name="title">
+      </div>
+      <div>
+        <label for="description">Описание</label><br>
+        <textarea class="input" id="description" name="description" rows="10">{{ data.load.description }}</textarea>
+      </div>
+      <div>
+        <label for="load">Нормативная нагрузка (кг/м²)</label><br>
+        <input value="{{ data.load.standart_load }}" class="input" type="number" id="load" name="load">
+      </div>
+      <div>
+        <label for="coefficient">Коэффициент надежности</label><br>
+        <input value="{{ data.load.reliability_coefficient }}" class="input short" type="number" id="coefficient" name="coefficient">
+      </div>
+      
+      <div class="file-field">
+        <label for="image">Изображение</label><br>  
+        <input type="file" id="image" name="image" class="hidden-file-input">
+        <label for="image" class="file-btn">ВЫБЕРИТЕ ФАЙЛ</label>
+        <span class="file-name">{{ image }}</span>
+      </div>
+
+      <div class="file-field">
+        <label for="video">Видео</label><br>
+        <input type="file" id="video" name="video" class="hidden-file-input">
+        <label for="video" class="file-btn">ВЫБЕРИТЕ ФАЙЛ</label>
+        <span class="file-name">{{ video }}</span>
+      </div>
+      
+      <div class="form-actions">
+        <button class="form-btn" type="submit">СОЗДАТЬ</button>
+      </div>
+    </form>
+    {{> tabbar}}
+  </div>
+<script>
+  document.querySelectorAll('.hidden-file-input').forEach(function (input) {
+    input.addEventListener('change', function () {
+      const fileNameEl = input.parentElement.querySelector('.file-name');
+      if (input.files.length > 0) {
+        fileNameEl.textContent = input.files[0].name;
+      } else {
+        fileNameEl.textContent = 'Файл не выбран';
+      }
+    });
+  });
+</script>
+</body>
+</html>

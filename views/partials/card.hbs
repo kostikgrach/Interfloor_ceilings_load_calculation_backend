@@ -1,0 +1,19 @@
+{{#if (eq this.status 'active')}}
+  <div class="card">
+    <img src="http://127.0.0.1:9000/media/{{ this.image }}" class="card image">
+    <h1>{{ this.title }}</h1>
+    <p>{{ this.description }}</p>
+    <p>Нормативная нагрузка: {{ this.standart_load }} кг/м<sup class="unit">2</sup></p>
+    <p>Коэффициент надежности: {{ this.reliability_coefficient }}</p>
+    <div class="card-footer">
+      <span class="card-likes">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        	<path d="M0 0h24v24H0z" fill="none" />
+        	<path fill="currentColor" d="M4 21h1V8H4c-1.1 0-2 .9-2 2v9c0 1.1.9 2 2 2M20 8h-6.61l1.12-3.37c.2-.61.1-1.28-.27-1.8c-.38-.52-.98-.83-1.62-.83h-.61c-.3 0-.58.13-.77.36L7.01 7.44V21h10.31a2 2 0 0 0 1.87-1.3l2.76-7.35c.04-.11.06-.23.06-.35v-2c0-1.1-.9-2-2-2Z" />
+        </svg>
+        {{ this.likes.length }}
+      </span>
+      <a href="/load-calculation/load/{{ this.id }}" class="card-btn">Подробнее</a>
+    </div>
+  </div>
+{{/if}}
