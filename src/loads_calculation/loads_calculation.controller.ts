@@ -13,7 +13,7 @@ export interface Load {
 }
 
 @Controller('load-calculation')
-export class AppController {
+export class LoadsCalculationController {
   private loads = [
     {
       id: 1,
