@@ -167,7 +167,7 @@ export class LoadsCalculationController {
   @Get('/add')
   async addLoad() {
     const draft = await this.loadsCalculationService.getDraftByUser(this.user_id);
-    
+    if (draft)
   }
 
   @Get('/publish/:id')
