@@ -13,6 +13,18 @@
         <input value="{{ data.load.title }}" class="input" type="text" id="title" name="title">
       </div>
       <div>
+        <label for="description">Описание</label><br>
+        <textarea class="input" id="description" name="description" rows="10">{{ data.load.description }}</textarea>
+      </div>
+      <div>
+        <label for="load">Нормативная нагрузка (кг/м²)</label><br>
+        <input value="{{ data.load.standart_load }}" class="input" type="number" id="load" name="load">
+      </div>
+      <div>
+        <label for="coefficient">Коэффициент надежности</label><br>
+        <input value="{{ data.load.reliability_coefficient }}" class="input short" type="number" id="coefficient" name="coefficient">
+      </div>
+      <div>
         <label for="title">Имя видео</label><br>
         <input value="{{ data.load.video }}" class="input" type="text" id="video" name="video">
       </div>
@@ -20,8 +32,9 @@
         <label for="title">Имя изображения</label><br>
         <input value="{{ data.load.image }}" class="input" type="text" id="image" name="image">
       </div>
+      
       <div class="form-actions">
-        <button class="form-btn" type="submit">ДАЛЕЕ</button>
+        <button class="form-btn" type="submit">ОПУБЛИКОВАТЬ</button>
       </div>
     </form>
     {{> tabbar}}

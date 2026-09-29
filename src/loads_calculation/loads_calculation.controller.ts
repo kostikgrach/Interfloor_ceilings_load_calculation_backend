@@ -1,4 +1,5 @@
 import { Controller, Get, Post, Param, Query, Render, Body } from '@nestjs/common';
+import { LoadsCalculationService } from './loads_calculation.service';
 
 export interface Load {
   id: number,
@@ -14,6 +15,12 @@ export interface Load {
 
 @Controller('load-calculation')
 export class LoadsCalculationController {
+  constructor(
+    private loadsCalculationService: LoadsCalculationService,
+  ) {}
+
+  private user_id = 1;
+
   private loads = [
     {
       id: 1,
@@ -107,13 +114,13 @@ export class LoadsCalculationController {
   
   @Get()
   @Render('main')
-  getLoads() {
+  async getLoads() {
     return {
       title: 'Load List',
       data: {
         current_date: new Date().toLocaleDateString(),
-        loads: this.loads,
-        first_id: this.loads.find(load => load.status === 'active')?.id ?? null,
+        loads: await this.loadsCalculationService.getAllLoads(),
+        first_id: await this.loadsCalculationService.getFirstId(),
         active: 0,
       },
     };
@@ -121,28 +128,17 @@ export class LoadsCalculationController {
 
   @Post()
   @Render('main')
-  async searchOrders(@Body() body: { minimum?: string, maximum?: string }) {
+  async searchLoads(@Body() body: { minimum?: string, maximum?: string }) {
     const minimum = body?.minimum || '0';
     const maximum = body?.maximum || '500';
-    let loads: Load[];
-    
-    // Если запрос не пустой, выполняем поиск по названию заказа
-    if (minimum && minimum.trim()) {
-      // Фильтруем заказы по названию (регистронезависимый поиск)
-      loads = this.loads.filter(load => 
-        load.standart_load >= Number(minimum) && load.standart_load <= Number(maximum)
-      );
-    } else {
-      loads = this.loads;
-    }
 
     return {
       title: 'Список заказов',
       name: 'BMSTU',
       data: {
         current_date: new Date().toLocaleDateString(),
-        loads: loads,
-        first_id: this.loads.find(load => load.status === 'active')?.id ?? null,
+        loads: await this.loadsCalculationService.getFilteredLoads(Number(minimum), Number(maximum)),
+        first_id: await this.loadsCalculationService.getFirstId(),
         active: 0,
         minimum: minimum,
         maximum: maximum,
@@ -152,48 +148,38 @@ export class LoadsCalculationController {
 
   @Get('load/:id')
   @Render('load')
-  getLoad(@Param('id') id: string, @Query() query: {next?: string}) {
-    const load_index = this.loads.findIndex(o => o.id === Number(id));
-    if (load_index === -1) {
-      return {
-        title: 'Не найдено',
-        data: {
-          id,
-          current_date: new Date().toLocaleDateString(),
-          load: null,
-          active: 2
-        },
-      };
-    }
+  async getLoad(@Param('id') id: string, @Query() query: {next?: string}) {
     const load = (query.next === 'true')
-                ? this.loads.slice(load_index + 1).find(o => o.status === 'active') 
-                : this.loads.find(o => o.id === Number(id) && o.status === 'active')
-
+                ? await this.loadsCalculationService.getNextActiveAfter(Number(id)) 
+                : await this.loadsCalculationService.getLoadById(Number(id))
     return {
       title: load ? load.title : 'Не найдено',
       data: {
         id: load?.id,
         current_date: new Date().toLocaleDateString(),
         load: load,
-        first_id: this.loads.find(load => load.status === 'active')?.id ?? null,
+        first_id: await this.loadsCalculationService.getFirstId(),
         active: 2
       },
     };
   }
 
   @Get('/add')
-  @Render('add')
-  addLoad() {
-    const load_draft = this.loads.find(o => o.status === 'draft');
-    return {
-      title: 'Добавить',
-      image: (load_draft?.image === '')? 'Файл не выбран' : load_draft?.image,
-      video: (load_draft?.video === '')? 'Файл не выбран' : load_draft?.video,
-      data: {
-        load: load_draft,
-        first_id: this.loads.find(load => load.status === 'active')?.id ?? null,
-        active: 1,
-      }
-    }
+  async addLoad() {
+    const draft = await this.loadsCalculationService.getDraftByUser(this.user_id);
+    
+  }
+
+  @Get('/publish/:id')
+  @Render('publish')
+  async publish_load(@Param('id') id: string, @Body() body: {
+
+  }) {
+
+  }
+
+  @Post('draft')
+  async saveDraft() {
+
   }
 }
