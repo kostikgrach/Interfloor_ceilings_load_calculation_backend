@@ -126,9 +126,7 @@ export class LoadsCalculationController {
     const maximum = body?.maximum || '500';
     let loads: Load[];
     
-    // Если запрос не пустой, выполняем поиск по названию заказа
     if (minimum && minimum.trim()) {
-      // Фильтруем заказы по названию (регистронезависимый поиск)
       loads = this.loads.filter(load => 
         load.standart_load >= Number(minimum) && load.standart_load <= Number(maximum)
       );
