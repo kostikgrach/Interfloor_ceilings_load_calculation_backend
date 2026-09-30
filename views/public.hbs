@@ -7,7 +7,7 @@
 </head>
 <body>
   <div class="canvas">
-    <form action="" class="add-form" method="POST" enctype="multipart/form-data">
+    <form action="/load-calculation/add/{{ data.load.id }}" class="add-form" method="POST">
       <div>
         <label for="title">Название</label><br>
         <input value="{{ data.load.title }}" class="input" type="text" id="title" name="title">
@@ -18,11 +18,11 @@
       </div>
       <div>
         <label for="load">Нормативная нагрузка (кг/м²)</label><br>
-        <input value="{{ data.load.standart_load }}" class="input" type="number" id="load" name="load">
+        <input value="{{ data.load.standart_load }}" class="input" type="number" id="standard_load" name="standard_load">
       </div>
       <div>
         <label for="coefficient">Коэффициент надежности</label><br>
-        <input value="{{ data.load.reliability_coefficient }}" class="input short" type="number" id="coefficient" name="coefficient">
+        <input value="{{ data.load.reliability_coefficient }}" class="input short" type="text" id="reliability_coefficient" name="reliability_coefficient">
       </div>
       <div>
         <label for="title">Имя видео</label><br>

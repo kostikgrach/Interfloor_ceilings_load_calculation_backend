@@ -381,6 +381,10 @@ input[type="number"] {
   vertical-align: middle;
 }
 
+.delete-btn {
+  color: #ff0000;
+}
+
 /*.form-btn::file-selector-button {
   width: 200px;
   height: 40px;

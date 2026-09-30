@@ -20,7 +20,8 @@ export class LoadsCalculationService {
     return this.loadRepository.find({
       where: {
         status: ServiceStatus.Published
-      }
+      },
+      relations: {likes: true}
     });
   }
 
@@ -29,12 +30,13 @@ export class LoadsCalculationService {
       where: {
         status: ServiceStatus.Published,
         standard_load: Between(minimum, maximum),
-      }
+      },
+      relations: {likes: true}
     })
   }
 
   async getLoadById(id: number): Promise<Load | null> {
-    return this.loadRepository.findOneBy({id: id});
+    return this.loadRepository.findOne({where: {id: id}, relations: {likes: true}});
   }
 
   async deleteLoad(id: number): Promise<void> {
@@ -47,7 +49,7 @@ export class LoadsCalculationService {
         status: ServiceStatus.Published,
       },
       select: {id: true},
-    })
+      })
     return load?.id ?? null
   }
 

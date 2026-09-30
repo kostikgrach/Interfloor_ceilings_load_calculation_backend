@@ -4,7 +4,7 @@ import { User } from './user.entity';
 
 export enum ServiceStatus {
   Draft = 'draft',
-  Published = 'published',
+  Published = 'active',
   Deleted = 'deleted',
 }
 

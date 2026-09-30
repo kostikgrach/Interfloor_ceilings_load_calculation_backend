@@ -1,5 +1,6 @@
-import { Controller, Get, Post, Param, Query, Render, Body } from '@nestjs/common';
+import { Controller, Get, Post, Param, Query, Render, Body, Res, Put, Redirect } from '@nestjs/common';
 import { LoadsCalculationService } from './loads_calculation.service';
+import { Response } from 'express';
 
 export interface Load {
   id: number,
@@ -21,7 +22,7 @@ export class LoadsCalculationController {
 
   private user_id = 1;
 
-  private loads = [
+  /*private loads = [
     {
       id: 1,
       title: 'Полезная нагрузка (Жилые здания)',
@@ -110,7 +111,7 @@ export class LoadsCalculationController {
       image: 'library.webp',
       video: '8.mp4',
     },
-  ]
+  ]*/
   
   @Get()
   @Render('main')
@@ -165,21 +166,58 @@ export class LoadsCalculationController {
   }
 
   @Get('/add')
-  async addLoad() {
+  async addLoad(@Res() res: Response) {
     const draft = await this.loadsCalculationService.getDraftByUser(this.user_id);
-    if (draft)
+    if (draft) {
+      return res.render('public', {
+        title: 'Опубликовать',
+        data: {
+          load: draft,
+          first_id: await this.loadsCalculationService.getFirstId(),
+          active: 1,
+        }
+      })
+    } else {
+      return res.render('add', {
+        title: 'Добавить',
+        data: {
+          first_id: await this.loadsCalculationService.getFirstId(),
+          active: 1,
+        }
+      })
+    }
   }
 
-  @Get('/publish/:id')
-  @Render('publish')
+  @Post('/add')
+  @Redirect('/load-calculation/add')
+  async saveDraft(@Body() body: { title: string, image: string, video: string }) {
+    this.loadsCalculationService.addDraft(body.title, body.image, body.video, this.user_id)
+  }
+
+  @Post('/add/:id')
+  @Redirect('/load-calculation')
   async publish_load(@Param('id') id: string, @Body() body: {
-
+    title: string,
+    description: string,
+    standard_load: string,
+    reliability_coefficient: string,
+    video: string,
+    image: string,
   }) {
-
+    await this.loadsCalculationService.publishLoad(
+      Number(id),
+      body.title,
+      body.description,
+      Number(body.standard_load),
+      body.reliability_coefficient,
+      body.image,
+      body.video,
+    );
   }
 
-  @Post('draft')
-  async saveDraft() {
-
+  @Post('/delete/:id')
+  @Redirect('/load-calculation', 302)
+  async delete_load(@Param('id') id: string) {
+    await this.loadsCalculationService.deleteLoad(Number(id));
   }
 }

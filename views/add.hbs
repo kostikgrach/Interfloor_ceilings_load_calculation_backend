@@ -7,18 +7,18 @@
 </head>
 <body>
   <div class="canvas">
-    <form action="" class="add-form" method="POST" enctype="multipart/form-data">
+    <form action="" class="add-form" method="POST">
       <div>
         <label for="title">Название</label><br>
-        <input value="{{ data.load.title }}" class="input" type="text" id="title" name="title">
+        <input class="input" type="text" id="title" name="title">
       </div>
       <div>
-        <label for="title">Имя видео</label><br>
-        <input value="{{ data.load.video }}" class="input" type="text" id="video" name="video">
+        <label for="video">Имя видео</label><br>
+        <input class="input" type="text" id="video" name="video">
       </div>
       <div>
-        <label for="title">Имя изображения</label><br>
-        <input value="{{ data.load.image }}" class="input" type="text" id="image" name="image">
+        <label for="image">Имя изображения</label><br>
+        <input class="input" type="text" id="image" name="image">
       </div>
       <div class="form-actions">
         <button class="form-btn" type="submit">ДАЛЕЕ</button>
