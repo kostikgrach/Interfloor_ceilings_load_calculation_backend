@@ -9,7 +9,11 @@
   <div class="canvas">
   <div class="video-wrap">
     <video autoplay muted loop playsinline class="load-video" alt="Ошибка">
-      <source src="http://127.0.0.1:9000/media/{{ data.load.video }}" type="video/mp4">
+      {{#if data.load.video}}
+        <source src="http://127.0.0.1:9000/media/{{ data.load.video }}"  type="video/mp4">
+      {{else}}
+        <source src="/No_video.mp4"  type="video/mp4">
+      {{/if}}
     </video>
 
     <div class="video-overlay">
