@@ -1,0 +1,19 @@
+<div class="range-slider">
+  <div class="range-slider__track"></div>
+  <div class="range-slider__fill"
+    style="margin-left: {{percentMin}}%; margin-right: {{percentMaxInverse}}%;"></div>
+  <input class="range-slider__input" type="range"
+         name="{{name}}_min"
+         min="{{min}}" max="{{max}}" step="{{step}}"
+         value="{{valueMin}}" />
+
+  <input class="range-slider__input" type="range"
+         name="{{name}}_max"
+         min="{{min}}" max="{{max}}" step="{{step}}"
+         value="{{valueMax}}" />
+
+  <div class="range-slider__labels">
+    <span>{{min}}</span>
+    <span>{{max}}</span>
+  </div>
+</div>

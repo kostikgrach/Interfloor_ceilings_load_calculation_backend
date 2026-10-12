@@ -22,8 +22,10 @@
       </a>
 
       <div class="video-caption">
+        <input type="checkbox" id="desc-toggle" class="desc-toggle" hidden>
         <h1 class="caption-title">{{ data.load.title }}</h1>
         <p class="caption-text">{{ data.load.description }}</p>
+        <label for="desc-toggle" class="desc-more" aria-hidden="true"></label>
       </div>
 
       <button class="like-btn" data-id="{{ data.id }}" aria-pressed="false">

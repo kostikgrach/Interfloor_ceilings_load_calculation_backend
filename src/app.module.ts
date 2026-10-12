@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { LoadsCalculationModule } from './loads_calculation/loads_calculation.module';
+import { FloorLoadsModule } from './floor_loads/floor_loads.module';
 
 @Module({
   imports: [
-    LoadsCalculationModule,
+    FloorLoadsModule,
   ],
 })
 export class AppModule {}
