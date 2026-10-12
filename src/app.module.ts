@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { LoadsCalculationModule } from './loads_calculation/loads_calculation.module';
+import { FloorLoadsModule } from './floor_loads/floor_loads.module';
 
 @Module({
   imports: [
@@ -25,7 +25,7 @@ import { LoadsCalculationModule } from './loads_calculation/loads_calculation.mo
           synchronize: false,
         }),
       }),
-      LoadsCalculationModule,
+      FloorLoadsModule,
     ],
 })
 

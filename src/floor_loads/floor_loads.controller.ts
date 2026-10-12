@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Param, Query, Render, Body, Res, Put, Redirect } from '@nestjs/common';
-import { LoadsCalculationService } from './loads_calculation.service';
+import { FloorLoadsService } from './floor_loads.service';
 import { Response } from 'express';
 
 export interface Load {
@@ -14,10 +14,10 @@ export interface Load {
   likes: number[],
 }
 
-@Controller('load-calculation')
-export class LoadsCalculationController {
+@Controller('floor-loads')
+export class FloorLoadsController {
   constructor(
-    private loadsCalculationService: LoadsCalculationService,
+    private loadsCalculationService: FloorLoadsService,
   ) {}
 
   private user_id = 1;
@@ -25,6 +25,10 @@ export class LoadsCalculationController {
   @Get()
   @Render('main')
   async getLoads() {
+    const MIN = 0;
+    const MAX = 500;
+    const percentMin = 0;
+    const percentMaxInverse = 0;
     return {
       title: 'Load List',
       data: {
@@ -33,14 +37,32 @@ export class LoadsCalculationController {
         first_id: await this.loadsCalculationService.getFirstId(),
         active: 0,
       },
+      filter: {
+        min: MIN,
+        max: MAX,
+        minimum: MIN,
+        maximum: MAX,
+        percentMin: percentMin.toFixed(2),
+        percentMaxInverse: percentMaxInverse.toFixed(2),
+      }
     };
   }
 
   @Post()
   @Render('main')
-  async searchLoads(@Body() body: { minimum?: string, maximum?: string }) {
-    const minimum = body?.minimum || '0';
-    const maximum = body?.maximum || '500';
+  async searchOrders(@Body() body: { load_min?: string, load_max?: string }) {
+    const MIN = 0;
+    const MAX = 500;
+
+    let minimum = body?.load_min !== undefined && body.load_min !== '' ? Number(body.load_min) : MIN;
+    let maximum = body?.load_max !== undefined && body.load_max !== '' ? Number(body.load_max) : MAX;
+    if (minimum > maximum) [minimum, maximum] = [maximum, minimum];
+
+    let loads: Load[];
+
+    const span = MAX - MIN;
+    const percentMin = ((minimum - MIN) / span) * 100;
+    const percentMaxInverse = 100 - ((maximum - MIN) / span) * 100;
 
     return {
       title: 'Список заказов',
@@ -52,6 +74,14 @@ export class LoadsCalculationController {
         active: 0,
         minimum: minimum,
         maximum: maximum,
+      },
+      filter: {
+        min: MIN,
+        max: MAX,
+        minimum,
+        maximum,
+        percentMin: percentMin.toFixed(2),
+        percentMaxInverse: percentMaxInverse.toFixed(2),
       },
     };
   }

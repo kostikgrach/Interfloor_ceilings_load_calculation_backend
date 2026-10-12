@@ -6,7 +6,7 @@ import { Like } from './entities/like.entity';
 import { User } from './entities/user.entity';
 
 @Injectable()
-export class LoadsCalculationService {
+export class FloorLoadsService {
   constructor(
     @InjectRepository(Load)
     private loadRepository: Repository<Load>,

@@ -20,8 +20,28 @@
         <label for="image">Имя изображения</label><br>
         <input class="input" type="text" id="image" name="image">
       </div>
+<<<<<<< HEAD
       <div class="form-actions">
         <button class="form-btn" type="submit">ДАЛЕЕ</button>
+=======
+      <div>
+        <label for="coefficient">Коэффициент надежности</label><br>
+        <input value="{{ data.load.reliability_coefficient }}" class="input short" type="number" id="coefficient" name="coefficient">
+      </div>
+      
+      <div class="file-field">
+        <label for="image">Изображение</label><br>  
+        <input type="file" id="image" name="image" class="hidden-file-input">
+        <label for="image" class="file-btn">ВЫБЕРИТЕ ФАЙЛ</label>
+        <span class="file-name">{{ image }}</span>
+      </div>
+
+      <div class="file-field">
+        <label for="video">Видео</label><br>
+        <input type="file" id="video" name="video" class="hidden-file-input">
+        <label for="video" class="file-btn">ВЫБЕРИТЕ ФАЙЛ</label>
+        <span class="file-name">{{ video }}</span>
+>>>>>>> initial-backend-and-design
       </div>
     </form>
     {{> tabbar}}

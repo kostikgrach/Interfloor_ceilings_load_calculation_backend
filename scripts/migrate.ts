@@ -1,7 +1,7 @@
 import { DataSource } from 'typeorm';
-import { Load } from '../src/loads_calculation/entities/load.entity';
-import { Like } from '../src/loads_calculation/entities/like.entity';
-import { User } from '../src/loads_calculation/entities/user.entity';
+import { Load } from '../src/floor_loads/entities/load.entity';
+import { Like } from '../src/floor_loads/entities/like.entity';
+import { User } from '../src/floor_loads/entities/user.entity';
 
 const dataSource = new DataSource({
   type: 'postgres',
