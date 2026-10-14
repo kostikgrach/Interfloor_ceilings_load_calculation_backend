@@ -36,6 +36,24 @@
 
         <span class="like-count">{{ data.load.likes.length }}</span>
       </button>
+      <svg style="grid-column: 2; grid-row: 4;" xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24">
+      	<path d="M0 0h24v24H0z" fill="none" />
+      	<circle cx="12" cy="12" r="11" fill="currentColor" />
+        <text x="12" y="12" 
+        text-anchor="middle" 
+        dominant-baseline="central" 
+        font-size="10px"
+        fill="#313131">{{ data.load.standart_load }}</text>
+      </svg>
+      <svg style="grid-column: 2; grid-row: 5;" xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24">
+      	<path d="M0 0h24v24H0z" fill="none" />
+      	<circle cx="12" cy="12" r="11" fill="currentColor" />
+        <text x="12" y="12" 
+        text-anchor="middle" 
+        dominant-baseline="central" 
+        font-size="10px"
+        fill="#313131">{{ data.load.reliability_coefficient }}</text>
+      </svg>
 
     </div>
   </div>
