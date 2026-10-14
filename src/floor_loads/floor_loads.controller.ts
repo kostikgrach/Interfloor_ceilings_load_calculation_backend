@@ -128,13 +128,13 @@ export class FloorLoadsController {
   }
 
   @Post('/add')
-  @Redirect('/load-calculation/add')
+  @Redirect('/floor-loads/add')
   async saveDraft(@Body() body: { title: string, image: string, video: string }) {
     this.loadsCalculationService.addDraft(body.title, body.image, body.video, this.user_id)
   }
 
   @Post('/add/:id')
-  @Redirect('/load-calculation')
+  @Redirect('/floor-loads')
   async publish_load(@Param('id') id: string, @Body() body: {
     title: string,
     description: string,
@@ -155,7 +155,7 @@ export class FloorLoadsController {
   }
 
   @Post('/delete/:id')
-  @Redirect('/load-calculation', 302)
+  @Redirect('/floor-loads', 302)
   async delete_load(@Param('id') id: string) {
     await this.loadsCalculationService.deleteLoad(Number(id));
   }

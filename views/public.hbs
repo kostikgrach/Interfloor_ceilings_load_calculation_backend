@@ -7,30 +7,30 @@
 </head>
 <body>
   <div class="canvas">
-    <form action="/load-calculation/add/{{ data.load.id }}" class="add-form" method="POST">
+    <form action="/floor-loads/add/{{ data.load.id }}" class="add-form" method="POST">
       <div>
         <label for="title">Название</label><br>
-        <input value="{{ data.load.title }}" class="input" type="text" id="title" name="title">
+        <input value="{{ data.load.title }}" class="input" type="text" id="title" name="title" required>
       </div>
       <div>
         <label for="description">Описание</label><br>
-        <textarea class="input" id="description" name="description" rows="10">{{ data.load.description }}</textarea>
+        <textarea class="input" id="description" name="description" rows="10" required>{{ data.load.description }}</textarea>
       </div>
       <div>
         <label for="load">Нормативная нагрузка (кг/м²)</label><br>
-        <input value="{{ data.load.standart_load }}" class="input" type="number" id="standard_load" name="standard_load">
+        <input value="{{ data.load.standart_load }}" class="input" type="number" id="standard_load" name="standard_load" required>
       </div>
       <div>
         <label for="coefficient">Коэффициент надежности</label><br>
-        <input value="{{ data.load.reliability_coefficient }}" class="input short" type="text" id="reliability_coefficient" name="reliability_coefficient">
+        <input value="{{ data.load.reliability_coefficient }}" class="input short" type="text" id="reliability_coefficient" name="reliability_coefficient" required>
       </div>
       <div>
         <label for="title">Имя видео</label><br>
-        <input value="{{ data.load.video }}" class="input" type="text" id="video" name="video">
+        <input value="{{ data.load.video }}" class="input" type="text" id="video" name="video" required>
       </div>
       <div>
         <label for="title">Имя изображения</label><br>
-        <input value="{{ data.load.image }}" class="input" type="text" id="image" name="image">
+        <input value="{{ data.load.image }}" class="input" type="text" id="image" name="image" required>
       </div>
       
       <div class="form-actions">

@@ -36,7 +36,7 @@ export class FloorLoadsService {
   }
 
   async getLoadById(id: number): Promise<Load | null> {
-    return this.loadRepository.findOne({where: {id: id}, relations: {likes: true}});
+    return this.loadRepository.findOne({where: {id: id, status: ServiceStatus.Published}, relations: {likes: true}});
   }
 
   async deleteLoad(id: number): Promise<void> {

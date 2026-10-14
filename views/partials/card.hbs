@@ -11,7 +11,7 @@
       </svg>
       {{ this.likes.length }}
     </span>
-    <form action="/load-calculation/delete/{{ this.id }}" method="POST">
+    <form action="/floor-loads/delete/{{ this.id }}" method="POST">
       <button type="submit" class="delete-btn">
         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 32 32">
         	<path d="M0 0h32v32H0z" fill="none" />
@@ -19,6 +19,6 @@
         </svg>
       </button>
     </form>
-    <a href="/load-calculation/load/{{ this.id }}" class="card-btn">Подробнее</a>
+    <a href="/floor-loads/load/{{ this.id }}" class="card-btn">Подробнее</a>
   </div>
 </div>
