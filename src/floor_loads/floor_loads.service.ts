@@ -40,7 +40,9 @@ export class FloorLoadsService {
   }
 
   async deleteLoad(id: number): Promise<void> {
-    await this.loadRepository.update({id: id}, {status: ServiceStatus.Deleted})
+    await this.loadRepository.query(
+      "UPDATE loads SET status=$1 WHERE id=$2", [ServiceStatus.Deleted, id]
+    )
   }
 
   async getFirstId(): Promise<number | null> {
