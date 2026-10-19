@@ -26,10 +26,10 @@ export class Load {
   reliability_coefficient: string | null;
 
   @Column({type: 'varchar', length: 50})
-  image: string | null;
+  image: string;
 
   @Column({type: 'varchar', length: 50})
-  video: string | null;
+  video: string;
 
   @Column({type: 'varchar', length: 8, default: ServiceStatus.Draft})
   status: ServiceStatus;
@@ -38,7 +38,7 @@ export class Load {
   creation_date: Date;
 
   @Column({ type: 'timestamp', name: 'formation_date', nullable: true})
-  formation_date: Date | null; 
+  formation_date: Date | null;
 
   @Column({type:'integer'})
   creator_id: number;

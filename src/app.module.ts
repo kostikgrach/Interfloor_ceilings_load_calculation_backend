@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { FloorLoadsModule } from './floor_loads/floor_loads.module';
+import { FloorLoadsApiController } from './floor_loads/floor_loads.api.controller';
 
 @Module({
   imports: [
