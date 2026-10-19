@@ -4,7 +4,7 @@ export class LoadResponseDto {
   id: number;
   title: string;
   description: string;
-  standart_load: number;
+  standard_load: number;
   reliability_coefficient: number;
   image: string;
   video: string;
@@ -14,7 +14,7 @@ export class LoadResponseDto {
     this.id = load.id;
     this.title = load.title;
     this.description = load.description!;
-    this.standart_load = load.standard_load!;
+    this.standard_load = load.standard_load!;
     this.reliability_coefficient = Number(load.reliability_coefficient!);
     this.image = load.image;
     this.video = load.video;

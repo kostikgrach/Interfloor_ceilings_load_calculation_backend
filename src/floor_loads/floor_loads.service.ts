@@ -56,6 +56,7 @@ export class FloorLoadsService {
         status: ServiceStatus.Published,
       },
       select: {id: true},
+      order: {id: 'ASC'},
       })
     return load?.id ?? null
   }
@@ -63,6 +64,7 @@ export class FloorLoadsService {
   async getNextActiveAfter(id: number): Promise<LoadResponseDto | null> {
     const load = await this.loadRepository
       .createQueryBuilder('load')
+      .leftJoinAndSelect('load.likes', 'like')
       .where('load.status = :status', { status: 'active' })
       .andWhere('load.id > :id', { id })
       .orderBy('load.id', 'ASC')

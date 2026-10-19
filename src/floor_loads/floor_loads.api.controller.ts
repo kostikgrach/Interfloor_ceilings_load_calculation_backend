@@ -2,7 +2,7 @@ import { BadRequestException, Body, Controller, Get, Param, Post, Query } from '
 import { FloorLoadsService } from './floor_loads.service';
 
 //TODO: Add registration of users and belonging of loads to users.
-@Controller('floor-loads/api')
+@Controller('api/floor-loads')
 export class FloorLoadsApiController {
   constructor(
     private loadsCalculationService: FloorLoadsService,
