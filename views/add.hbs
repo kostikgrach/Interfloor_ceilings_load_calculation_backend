@@ -7,18 +7,22 @@
 </head>
 <body>
   <div class="canvas">
-    <form action="" class="add-form" method="POST">
-      <div>
+    <form action="" class="add-form" method="POST" enctype="multipart/form-data">
+      <div class="form-field">
+        <label for="video">Видео</label><br>
+        <video autoplay muted loop playsinline class="media-preview media-video" aria-label="Превью видео">
+          <source src="/1.mp4" type="video/mp4">
+        </video>
+        <input class="input-file" type="file" id="video" name="video" accept="video/*" required>
+      </div>
+      <div class="form-field">
+        <label for="image">Изображение</label><br>
+        <img class="media-preview media-image" src="/1.jpg" alt="Превью картинки">
+        <input class="input-file" type="file" id="image" name="image" accept="image/*" required>
+      </div>
+      <div class="form-field">
         <label for="title">Название</label><br>
         <input class="input" type="text" id="title" name="title" required>
-      </div>
-      <div>
-        <label for="video">Имя видео</label><br>
-        <input class="input" type="text" id="video" name="video" required>
-      </div>
-      <div>
-        <label for="image">Имя изображения</label><br>
-        <input class="input" type="text" id="image" name="image" required>
       </div>
       <div class="form-actions">
         <button class="form-btn" type="submit">ДАЛЕЕ</button>

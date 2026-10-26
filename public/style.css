@@ -435,7 +435,10 @@ input[type="number"] {
   vertical-align: middle;
 }
 
-.file-btn:hover {
+.file-btn:hover,
+.form-btn:hover,
+.filter-bar__btn:hover,
+.input-file:hover {
   background-color: #68AB3B;
 }
 

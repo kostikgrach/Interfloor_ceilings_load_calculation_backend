@@ -129,8 +129,8 @@ export class FloorLoadsController {
 
   @Post('/add')
   @Redirect('/floor-loads/add')
-  async saveDraft(@Body() body: { title: string, image: string, video: string }) {
-    this.loadsCalculationService.addDraft(body.title, body.image, body.video, this.user_id)
+  async saveDraft(@Body() body: { title: string }) {
+    this.loadsCalculationService.addDraft(body.title, '1.webp', '1.mp4', this.user_id)
   }
 
   @Post('/add/:id')
