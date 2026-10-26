@@ -10,7 +10,17 @@
     <form action="/floor-loads/add/{{ data.load.id }}" class="add-form" method="POST">
       <div>
         <label for="title">Название</label><br>
-        <input value="{{ data.load.title }}" class="input" type="text" id="title" name="title" required>
+        <input value="{{ data.load.title }}" class="input" type="text" id="title" name="title" disabled>
+      </div>
+      <div class="form-field">
+        <label for="video">Видео</label><br>
+        <video class="media-preview media-video" controls playsinline>
+          <source src="/1.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="form-field">
+        <label for="image">Изображение</label><br>
+        <img class="media-preview media-image" src="/1.jpg" alt="Превью изображения">
       </div>
       <div>
         <label for="description">Описание</label><br>
@@ -24,14 +34,7 @@
         <label for="coefficient">Коэффициент надежности</label><br>
         <input value="{{ data.load.reliability_coefficient }}" class="input short" type="text" id="reliability_coefficient" name="reliability_coefficient" required>
       </div>
-      <div>
-        <label for="title">Имя видео</label><br>
-        <input value="{{ data.load.video }}" class="input" type="text" id="video" name="video" required>
-      </div>
-      <div>
-        <label for="title">Имя изображения</label><br>
-        <input value="{{ data.load.image }}" class="input" type="text" id="image" name="image" required>
-      </div>
+      
       
       <div class="form-actions">
         <button class="form-btn" type="submit">ОПУБЛИКОВАТЬ</button>
