@@ -1,20 +1,24 @@
-import { BadRequestException, Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, Query, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { memoryStorage } from 'multer';
+import { getCurrentCreatorUserId } from '../users/users.service';
 import { FloorLoadsService } from './floor_loads.service';
+import { PublishCurrentDraftDto } from './dto/publish-current-draft.dto';
+import { LikeLoadDto } from './dto/like-load.dto';
 
-//TODO: Add registration of users and belonging of loads to users.
 @Controller('api/floor-loads')
 export class FloorLoadsApiController {
   constructor(
     private loadsCalculationService: FloorLoadsService,
   ) {}
   
-  private user_id = 1;
+  private readonly user_id = getCurrentCreatorUserId();
   
   @Get()
   async getLoads() {
-    return await this.loadsCalculationService.getAllLoads();
+    return await this.loadsCalculationService.getAllLoads(this.user_id);
   }
-
+/*
   @Post()
   async searchOrders(@Body() body: { min?: string, max?: string }) {
     const MIN = 0;
@@ -28,45 +32,69 @@ export class FloorLoadsApiController {
     if (maximum > MAX) throw  new BadRequestException(`Maximum value must be less than or equal to ${MAX}`);
     if (minimum > maximum) throw  new BadRequestException(`Minimum value must be less than or equal to maximum value`);
   
-    return await this.loadsCalculationService.getFilteredLoads(Number(minimum), Number(maximum));
+    return await this.loadsCalculationService.getFilteredLoads(Number(minimum), Number(maximum), this.user_id);
   }
-  
-  // TODO: Add no id search
+*/
+  @Get('load')
+  async getFirstPublishedLoad() {
+    return await this.loadsCalculationService.getFirstPublishedLoad();
+  }
+
   @Get('load/:id')
   async getLoad(@Param('id') id: string, @Query() query: {next?: string}) {
     const load = (query.next === 'true')
                 ? await this.loadsCalculationService.getNextActiveAfter(Number(id)) 
-                : await this.loadsCalculationService.getLoadById(Number(id))
+                : await this.loadsCalculationService.getLoadById(Number(id), this.user_id)
     return load;
+  }
+
+  @Get('/draft')
+  async getDraft() {
+    return await this.loadsCalculationService.getDraftByUser(this.user_id);
+  }
+
+  @Post('/like')
+  async toggleLike(@Body() body: LikeLoadDto) {
+    await this.loadsCalculationService.setLike(Number(body.load_id), this.user_id, Number(body.like));
+  }
+
+  @Put('/add')
+  async publishCurrentDraft(@Body() body: PublishCurrentDraftDto) {
+    await this.loadsCalculationService.publishCurrentDraftByUser(this.user_id, {
+      description: body.description,
+      standard_load: Number(body.standard_load),
+      reliability_coefficient: body.reliability_coefficient,
+    });
   }
   
   @Post('/add')
-  async saveDraft(@Body() body: { title: string, image: string, video: string }) {
-    this.loadsCalculationService.addDraft(body.title, body.image, body.video, this.user_id)
-  }
-  
-  @Post('/add/:id')
-  async publish_load(@Param('id') id: string, @Body() body: {
-    title: string,
-    description: string,
-    standard_load: string,
-    reliability_coefficient: string,
-    video: string,
-    image: string,
-  }) {
-    await this.loadsCalculationService.publishLoad(
-      Number(id),
+  @UseInterceptors(
+    FileFieldsInterceptor(
+      [
+        { name: 'image', maxCount: 1 },
+        { name: 'video', maxCount: 1 },
+      ],
+      { storage: memoryStorage() },
+    ),
+  )
+  async saveDraft(
+    @UploadedFiles()
+    files: { image?: Express.Multer.File[]; video?: Express.Multer.File[] },
+    @Body() body: { title: string },
+  ) {
+    const imageFile = files?.image?.[0];
+    const videoFile = files?.video?.[0];
+
+    await this.loadsCalculationService.addDraftWithFiles(
       body.title,
-      body.description,
-      Number(body.standard_load),
-      body.reliability_coefficient,
-      body.image,
-      body.video,
+      imageFile,
+      videoFile,
+      this.user_id,
     );
   }
   
-  @Post('/delete/:id')
-  async delete_load(@Param('id') id: string) {
-    await this.loadsCalculationService.deleteLoad(Number(id));
+  @Delete('/delete/:id')
+  async deleteLoad(@Param('id') id: string) {
+    await this.loadsCalculationService.deleteLoad(Number(id), this.user_id);
   }  
 }

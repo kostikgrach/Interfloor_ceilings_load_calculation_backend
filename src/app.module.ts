@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { FloorLoadsModule } from './floor_loads/floor_loads.module';
 import { FloorLoadsApiController } from './floor_loads/floor_loads.api.controller';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { FloorLoadsApiController } from './floor_loads/floor_loads.api.controlle
         }),
       }),
       FloorLoadsModule,
+      UsersModule,
     ],
 })
 

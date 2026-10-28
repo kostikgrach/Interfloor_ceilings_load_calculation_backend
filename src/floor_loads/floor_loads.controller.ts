@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Param, Query, Render, Body, Res, Put, Redirect } from '@nestjs/common';
 import { FloorLoadsService } from './floor_loads.service';
 import { Response } from 'express';
+import { getCurrentCreatorUserId } from '../users/users.service';
 
 export interface Load {
   id: number,
@@ -20,7 +21,7 @@ export class FloorLoadsController {
     private loadsCalculationService: FloorLoadsService,
   ) {}
 
-  private user_id = 1;
+  private readonly user_id = getCurrentCreatorUserId();
   
   @Get()
   @Render('main')
