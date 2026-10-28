@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
 import { RegisterUserDto } from './dto/register-user.dto';
 
-export const MOCK_CURRENT_USER_ID = 1;
+const MOCK_CURRENT_USER_ID = 1;
 
 export const getCurrentCreatorUserId = (() => {
   let currentCreatorUserId: number | null = null;
