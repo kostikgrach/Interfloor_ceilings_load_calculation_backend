@@ -18,7 +18,7 @@ export interface Load {
 @Controller('floor-loads')
 export class FloorLoadsController {
   constructor(
-    private loadsCalculationService: FloorLoadsService,
+    private readonly floorLoadsService: FloorLoadsService,
   ) {}
 
   private readonly user_id = getCurrentCreatorUserId();
@@ -34,8 +34,8 @@ export class FloorLoadsController {
       title: 'Load List',
       data: {
         current_date: new Date().toLocaleDateString(),
-        loads: await this.loadsCalculationService.getAllLoads(),
-        first_id: await this.loadsCalculationService.getFirstId(),
+        loads: await this.floorLoadsService.getAllLoads(),
+        first_id: await this.floorLoadsService.getFirstId(),
         active: 0,
       },
       filter: {
@@ -70,8 +70,8 @@ export class FloorLoadsController {
       name: 'BMSTU',
       data: {
         current_date: new Date().toLocaleDateString(),
-        loads: await this.loadsCalculationService.getFilteredLoads(Number(minimum), Number(maximum)),
-        first_id: await this.loadsCalculationService.getFirstId(),
+        loads: await this.floorLoadsService.getFilteredLoads(Number(minimum), Number(maximum)),
+        first_id: await this.floorLoadsService.getFirstId(),
         active: 0,
         minimum: minimum,
         maximum: maximum,
@@ -91,15 +91,15 @@ export class FloorLoadsController {
   @Render('load')
   async getLoad(@Param('id') id: string, @Query() query: {next?: string}) {
     const load = (query.next === 'true')
-                ? await this.loadsCalculationService.getNextActiveAfter(Number(id)) 
-                : await this.loadsCalculationService.getLoadById(Number(id))
+                ? await this.floorLoadsService.getNextActiveAfter(Number(id)) 
+                : await this.floorLoadsService.getLoadById(Number(id))
     return {
       title: load ? load.title : 'Не найдено',
       data: {
         id: load?.id,
         current_date: new Date().toLocaleDateString(),
         load: load,
-        first_id: await this.loadsCalculationService.getFirstId(),
+        first_id: await this.floorLoadsService.getFirstId(),
         active: 2
       },
     };
@@ -107,13 +107,13 @@ export class FloorLoadsController {
 
   @Get('/add')
   async addLoad(@Res() res: Response) {
-    const draft = await this.loadsCalculationService.getDraftByUser(this.user_id);
+    const draft = await this.floorLoadsService.getDraftByUser(this.user_id);
     if (draft) {
       return res.render('public', {
         title: 'Опубликовать',
         data: {
           load: draft,
-          first_id: await this.loadsCalculationService.getFirstId(),
+          first_id: await this.floorLoadsService.getFirstId(),
           active: 1,
         }
       })
@@ -121,7 +121,7 @@ export class FloorLoadsController {
       return res.render('add', {
         title: 'Добавить',
         data: {
-          first_id: await this.loadsCalculationService.getFirstId(),
+          first_id: await this.floorLoadsService.getFirstId(),
           active: 1,
         }
       })
@@ -131,7 +131,7 @@ export class FloorLoadsController {
   @Post('/add')
   @Redirect('/floor-loads/add')
   async saveDraft(@Body() body: { title: string }) {
-    this.loadsCalculationService.addDraft(body.title, '1.webp', '1.mp4', this.user_id)
+    this.floorLoadsService.addDraft(body.title, '1.webp', '1.mp4', this.user_id)
   }
 
   @Post('/add/:id')
@@ -144,7 +144,7 @@ export class FloorLoadsController {
     video: string,
     image: string,
   }) {
-    await this.loadsCalculationService.publishLoad(
+    await this.floorLoadsService.publishLoad(
       Number(id),
       body.title,
       body.description,
@@ -158,6 +158,6 @@ export class FloorLoadsController {
   @Post('/delete/:id')
   @Redirect('/floor-loads', 302)
   async delete_load(@Param('id') id: string) {
-    await this.loadsCalculationService.deleteLoad(Number(id));
+    await this.floorLoadsService.deleteLoad(Number(id));
   }
 }

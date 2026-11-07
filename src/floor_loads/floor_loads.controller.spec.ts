@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { FloorLoadsController } from './floor_loads.controller';
 
-describe('LoadsCalculationController', () => {
+describe('FloorLoadsController', () => {
   let controller: FloorLoadsController;
 
   beforeEach(async () => {
