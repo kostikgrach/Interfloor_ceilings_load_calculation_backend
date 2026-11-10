@@ -3,33 +3,32 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { FloorLoadsModule } from './floor_loads/floor_loads.module';
-import { FloorLoadsApiController } from './floor_loads/floor_loads.api.controller';
+import { SessionModule } from './session/session.module';
 import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env'
+      envFilePath: '.env',
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-        useFactory: (config: ConfigService) => (
-          {
-          type: 'postgres',
-          host: config.get('DB_HOST', 'localhost'),
-          port: config.get('DB_PORT', 5432),
-          username: config.get('DB_USERNAME'),
-          password: config.get('DB_PASSWORD'),
-          database: config.get('DB_DATABASE'),
-          autoLoadEntities: true,
-          synchronize: false,
-        }),
+      useFactory: (config: ConfigService) => ({
+        type: 'postgres',
+        host: config.get('DB_HOST', 'localhost'),
+        port: config.get('DB_PORT', 5432),
+        username: config.get('DB_USERNAME'),
+        password: config.get('DB_PASSWORD'),
+        database: config.get('DB_DATABASE'),
+        autoLoadEntities: true,
+        synchronize: false,
       }),
-      FloorLoadsModule,
-      UsersModule,
-    ],
+    }),
+    SessionModule,
+    FloorLoadsModule,
+    UsersModule,
+  ],
 })
-
 export class AppModule {}

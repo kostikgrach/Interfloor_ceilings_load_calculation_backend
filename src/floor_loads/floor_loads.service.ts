@@ -47,7 +47,7 @@ export class FloorLoadsService {
     return load ? new LoadResponseDto(load, currentUserId) : null;
   }
 
-  async getFirstPublishedLoad(): Promise<LoadResponseDto | null> {
+  async getFirstPublishedLoad(currentUserId: number = getCurrentCreatorUserId()): Promise<LoadResponseDto | null> {
     const load = await this.loadRepository.findOne({
       where: {
         status: ServiceStatus.Published,
@@ -56,7 +56,7 @@ export class FloorLoadsService {
       relations: { likes: true },
     });
 
-    return load ? new LoadResponseDto(load, getCurrentCreatorUserId()) : null;
+    return load ? new LoadResponseDto(load, currentUserId) : null;
   }
 
   async deleteLoad(id: number, userId: number = getCurrentCreatorUserId()): Promise<void> {
@@ -87,7 +87,7 @@ export class FloorLoadsService {
     return load?.id ?? null
   }
 
-  async getNextActiveAfter(id: number): Promise<LoadResponseDto | null> {
+  async getNextActiveAfter(id: number, currentUserId: number = getCurrentCreatorUserId()): Promise<LoadResponseDto | null> {
     const load = await this.loadRepository
       .createQueryBuilder('load')
       .leftJoinAndSelect('load.likes', 'like')
@@ -95,7 +95,7 @@ export class FloorLoadsService {
       .andWhere('load.id > :id', { id })
       .orderBy('load.id', 'ASC')
       .getOne();
-    return load ? new LoadResponseDto(load) : null;
+    return load ? new LoadResponseDto(load, currentUserId) : null;
   }
 
   async getDraftByUser(id: number): Promise<DraftResponseDto | null> {
