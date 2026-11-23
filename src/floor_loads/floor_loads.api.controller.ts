@@ -57,13 +57,13 @@ export class FloorLoadsApiController {
     return await this.floorLoadsService.getFilteredLoads(Number(minimum), Number(maximum), this.user_id);
   }
 */
-  @Get(['load', 'load/:id'])
+  @Get('load')
   @UseGuards(SessionGuard)
   @ApiOperation({ summary: 'Получить нагрузку по ID или первую опубликованную' })
   @ApiResponse({ status: 200, description: 'Данные нагрузки' })
   async getLoad(
     @Req() req: { user: { id: number } },
-    @Param('id') id?: string,
+    @Query('id') id?: string,
     @Query() query?: { next?: string },
   ) {
     if (!id) {

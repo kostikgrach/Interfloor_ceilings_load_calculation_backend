@@ -303,3 +303,28 @@ video=@/path/to/video.mp4
 | PUT | `/api/floor-loads/add` | Опубликовать черновик |
 | POST | `/api/floor-loads/like` | Поставить/снять лайк |
 | POST | `/api/floor-loads/delete/:id` | Удалить услугу |
+
+---
+
+## 8. Просмотр активных сессий Redis
+
+Скрипт `scripts/active_sessions.lua` выводит активные ключи сессий в формате:
+
+```text
+<user_id> <remaining_ttl_seconds>
+```
+
+Сессии запускаются и хранятся в контейнере Redis. Скрипт необходимо сначала скопировать внутрь контейнера, а затем выполнить с помощью `redis-cli`:
+
+```bash
+docker cp scripts/active_sessions.lua redis:/data/active_sessions.lua
+docker exec -it redis redis-cli --eval /data/active_sessions.lua
+```
+
+Дополнительно можно передать шаблон поиска ключей сессий:
+
+```bash
+docker exec -it redis redis-cli --eval /data/active_sessions.lua , 'session:*'
+```
+
+По умолчанию скрипт ищет ключи по шаблону `session:*`.
