@@ -35,8 +35,8 @@ export class FloorLoadsApiController {
     return await this.floorLoadsService.getFilteredLoads(Number(minimum), Number(maximum), this.user_id);
   }
 */
-  @Get(['load', 'load/:id'])
-  async getLoad(@Param('id') id?: string, @Query() query?: { next?: string }) {
+  @Get('load')
+  async getLoad(@Query('id') id?: string, @Query() query?: { next?: string }) {
     if (!id) {
       return await this.floorLoadsService.getFirstPublishedLoad();
     }
